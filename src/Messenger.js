@@ -6,47 +6,36 @@ class Messenger extends Component {
   constructor() {
     super();
     this.state = {
-      messages: [],
+      roomOne: [],
     }
   }
 
-  
-  autoScroll = () => {
-    document.getElementById('scrollDummy').scrollIntoView({behavior: "smooth"});
-  }
-
   componentDidMount() {
+    const dbRef = firebase.database().ref('roomOne');
 
-    this.autoScroll();
-
-    const dbRef = firebase.database().ref('messages');
-
-    // dbRef.push('Topic of the day')
+    // dbRef.set('')
 
     dbRef.on('value', (response) => {
 
       const oldMsg = Object.values(response.val())
 
       this.setState({
-        messages: oldMsg,
+        roomOne: oldMsg,
       })
     })
   }
 
-  componentDidUpdate() {
-    this.autoScroll();
-  }
-
   render () {
     return (
-      <section className="messenger">
+      <section id="roomOne" className="roomOne">
+        <h2>Topic: What is the meaning of life?</h2>
         <div className="showMsg">
           <ul className="oldMsg" >
-            {this.state.messages.map((message) => {
-              return <li>{message}</li>
+            {this.state.roomOne.map((message, index) => {
+              return <li key={index}>{message}</li>
             })}
           </ul>
-          <div id="scrollDummy"></div>
+          <div id="scrollDummy" className="scrollDummy"></div>
         </div>
         <Input />
       </section>

@@ -1,16 +1,42 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import Home from './Home';
+import Nav from './Nav'
 import Messenger from './Messenger'
 import './App.css';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state={
+      currentPage:''
+    }
+  }
+
+  componentDidMount() {
+    document.getElementById('home').classList.toggle('show');
+  }
+
+  selectPage = (page) => {
+    this.setState({
+      currentPage:page,
+    })
+
+    document.querySelector(`section.show`).classList.toggle('show');
+    document.querySelector(`li.selected`).classList.toggle('selected');
+    document.getElementById(page).classList.toggle('show');
+    document.querySelector(`li.${page}`).classList.toggle('selected');
+  }
+
   render() {
     return (
-      <Fragment>
-        <Home />
-
-        <Messenger />
-      </Fragment>
+      <div className="app">
+        <Nav selectPage={this.selectPage}/>
+        <main>
+          <Home />
+          <Messenger />
+        </main>
+      </div>
+      
     );
   }
 }

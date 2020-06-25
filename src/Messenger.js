@@ -6,12 +6,12 @@ class Messenger extends Component {
   constructor() {
     super();
     this.state = {
-      roomOne: [],
+      messages: [],
     }
   }
 
   componentDidMount() {
-    const dbRef = firebase.database().ref('roomOne');
+    const dbRef = firebase.database().ref(this.props.roomNumber);
 
     // dbRef.set('')
 
@@ -20,24 +20,24 @@ class Messenger extends Component {
       const oldMsg = Object.values(response.val())
 
       this.setState({
-        roomOne: oldMsg,
+        messages: oldMsg,
       })
     })
   }
 
   render () {
     return (
-      <section id="roomOne" className="roomOne">
-        <h2>Topic: What is the meaning of life?</h2>
+      <section id={this.props.roomNumber} className={this.props.roomNumber} className="messenger">
+        <h2>Topic: {this.props.topic}</h2>
         <div className="showMsg">
           <ul className="oldMsg" >
-            {this.state.roomOne.map((message, index) => {
-              return <li key={index}>{message}</li>
+            {this.state.messages.map((message, index) => {
+              return <li key={index}><p className="userName">{message.userName}:</p><p className="msgBody">{message.msgBody}</p></li>
             })}
           </ul>
-          <div id="scrollDummy" className="scrollDummy"></div>
+          <div id={`scrollDummy${this.props.roomNumber}`}></div>
         </div>
-        <Input />
+        <Input roomNumber={this.props.roomNumber}/>
       </section>
     )
   }

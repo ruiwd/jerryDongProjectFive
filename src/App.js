@@ -33,7 +33,9 @@ class App extends Component {
         <Nav selectPage={this.selectPage}/>
         <main>
           <Home />
-          <Messenger />
+          <Messenger roomNumber={'roomOne'} topic={'What is the meaning of life?'}/>
+          <Messenger roomNumber={'roomTwo'} topic={'Would you be rather be permanently sticky or damp?'}/>
+          <Messenger roomNumber={'roomThree'} topic={'Free banter!'}/>
         </main>
       </div>
       

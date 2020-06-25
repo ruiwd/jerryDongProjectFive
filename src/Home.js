@@ -8,6 +8,7 @@ class Home extends Component {
           Welcome to my Discussion Board!
         </h1>
         <h2>Select a room to join and chat away!</h2>
+        <footer>Jerry Dong &copy; 2020</footer>
       </section>
     )
   }

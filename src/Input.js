@@ -6,6 +6,7 @@ class Input extends Component {
     super();
     this.state = {
       userInput:'',
+      userName:'',
     }
   }
 
@@ -15,24 +16,37 @@ class Input extends Component {
     })
   }
 
+  handleName = (e) => {
+    this.setState({
+      userName: e.target.value
+    })
+  }
+
   msgSubmit = (e) => {
     e.preventDefault();
 
     if (this.state.userInput !== '') {
-      const msgRef = firebase.database().ref('roomOne');
-      msgRef.push(this.state.userInput);
+      const msgRef = firebase.database().ref(this.props.roomNumber);
+      msgRef.push({
+        userName: this.state.userName,
+        msgBody: this.state.userInput
+      });
 
       document.getElementById('userInput').value = '';
       this.setState({userInput:''})
 
-      setTimeout(function(){document.getElementById('scrollDummy').scrollIntoView({behavior: "smooth"})},100);
+      document.querySelector(`input.userName${this.props.roomNumber}`).setAttribute("disabled", "");
+      document.querySelector(`input.userName${this.props.roomNumber}`).setAttribute("style", "opacity:0.5");
+
+      const elemID = "scrollDummy"+this.props.roomNumber
+      setTimeout(function(){document.getElementById(elemID).scrollIntoView({behavior: "smooth"})},100);
     }
   }
 
   enterKey = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      document.getElementById('submitBtn').click();
+      document.querySelector(`.submitBtn${this.props.roomNumber}`).click();
     }
   }
 
@@ -40,8 +54,11 @@ class Input extends Component {
     return (
       <div className="sendMsg">        
         <form className="send" onKeyPress={this.enterKey} action="submit" onSubmit={this.msgSubmit}>
-          <textarea value={this.state.userInput} name="userInput" id="userInput" onChange={this.handleChange}></textarea>
-          <button id="submitBtn" type="submit">Send</button>
+          <input className={`userName${this.props.roomNumber}`} type="text" placeholder="ID" required value={this.state.userName} name="userName" id="userName" onChange={this.handleName}/>
+          <div className="msgText">            
+            <textarea value={this.state.userInput} name="userInput" id="userInput" onChange={this.handleChange}></textarea>
+            <button className={`submitBtn${this.props.roomNumber}`} type="submit">Send</button>
+          </div>
         </form>
       </div>
     )

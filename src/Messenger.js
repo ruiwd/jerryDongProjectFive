@@ -13,8 +13,6 @@ class Messenger extends Component {
   componentDidMount() {
     const dbRef = firebase.database().ref(this.props.roomNumber);
 
-    // dbRef.set('')
-
     dbRef.on('value', (response) => {
 
       const oldMsg = Object.values(response.val())

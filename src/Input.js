@@ -50,6 +50,12 @@ class Input extends Component {
     }
   }
 
+  componentDidUpdate () {
+    const elemID = "scrollDummy"+this.props.roomNumber;
+    const pageLoadScroll = () => {document.getElementById(elemID).scrollIntoView({behavior: "smooth"})};
+    pageLoadScroll();
+  }
+
   render () {
     return (
       <div className="sendMsg">        

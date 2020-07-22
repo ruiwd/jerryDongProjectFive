@@ -11,7 +11,7 @@ class Messenger extends Component {
   }
 
   componentDidMount() {
-    const dbRef = firebase.database().ref(this.props.roomNumber);
+    const dbRef = firebase.database().ref(this.props.roomName);
 
     dbRef.on('value', (response) => {
 
@@ -25,7 +25,7 @@ class Messenger extends Component {
 
   render () {
     return (
-      <section id={this.props.roomNumber} className={this.props.roomNumber} className="messenger">
+      <section id={this.props.roomName} className={this.props.roomName} className="messenger">
         <h2>Topic: {this.props.topic}</h2>
         <div className="showMsg">
           <ul className="oldMsg" >
@@ -33,9 +33,9 @@ class Messenger extends Component {
               return <li key={index}><p className="userName">{message.userName}:</p><p className="msgBody">{message.msgBody}</p></li>
             })}
           </ul>
-          <div id={`scrollDummy${this.props.roomNumber}`}></div>
+          <div id={`scrollDummy${this.props.roomName}`}></div>
         </div>
-        <Input roomNumber={this.props.roomNumber}/>
+        <Input roomName={this.props.roomName}/>
       </section>
     )
   }

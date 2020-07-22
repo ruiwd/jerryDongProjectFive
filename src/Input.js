@@ -26,7 +26,7 @@ class Input extends Component {
     e.preventDefault();
 
     if (this.state.userInput !== '') {
-      const msgRef = firebase.database().ref(this.props.roomNumber);
+      const msgRef = firebase.database().ref(this.props.roomName);
       msgRef.push({
         userName: this.state.userName,
         msgBody: this.state.userInput
@@ -35,10 +35,10 @@ class Input extends Component {
       document.getElementById('userInput').value = '';
       this.setState({userInput:''})
 
-      document.querySelector(`input.userName${this.props.roomNumber}`).setAttribute("disabled", "");
-      document.querySelector(`input.userName${this.props.roomNumber}`).setAttribute("style", "opacity:0.5");
+      document.querySelector(`input.userName${this.props.roomName}`).setAttribute("disabled", "");
+      document.querySelector(`input.userName${this.props.roomName}`).setAttribute("style", "opacity:0.5");
 
-      const elemID = "scrollDummy"+this.props.roomNumber
+      const elemID = "scrollDummy"+this.props.roomName
       setTimeout(function(){document.getElementById(elemID).scrollIntoView({behavior: "smooth"})},100);
     }
   }
@@ -46,12 +46,12 @@ class Input extends Component {
   enterKey = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      document.querySelector(`.submitBtn${this.props.roomNumber}`).click();
+      document.querySelector(`.submitBtn${this.props.roomName}`).click();
     }
   }
 
   componentDidUpdate () {
-    const elemID = "scrollDummy"+this.props.roomNumber;
+    const elemID = "scrollDummy"+this.props.roomName;
     const pageLoadScroll = () => {document.getElementById(elemID).scrollIntoView({behavior: "smooth"})};
     pageLoadScroll();
   }
@@ -60,10 +60,10 @@ class Input extends Component {
     return (
       <div className="sendMsg">        
         <form className="send" onKeyPress={this.enterKey} action="submit" onSubmit={this.msgSubmit}>
-          <input className={`userName${this.props.roomNumber}`} type="text" placeholder="ID" required value={this.state.userName} name="userName" id="userName" onChange={this.handleName}/>
+          <input className={`userName${this.props.roomName}`} type="text" placeholder="ID" maxlength="10" required value={this.state.userName} name="userName" id="userName" onChange={this.handleName}/>
           <div className="msgText">            
             <textarea value={this.state.userInput} name="userInput" id="userInput" onChange={this.handleChange}></textarea>
-            <button className={`submitBtn${this.props.roomNumber}`} type="submit">Send</button>
+            <button className={`submitBtn${this.props.roomName}`} type="submit">Send</button>
           </div>
         </form>
       </div>
